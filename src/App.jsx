@@ -322,7 +322,19 @@ supabase.from("proyectos").select("*").order("created_at", { ascending: false })
   ];
 
   const matFiltrados = proyectoActivo ? materiales.filter((m) => m.proyectoId === proyectoActivo) : materiales;
+
   const conFiltrados = proyectoActivo ? contratistas.filter((c) => c.proyectoId === proyectoActivo) : contratistas;
+  const [contratistaFiltroEspecialidad, setContratistaFiltroEspecialidad] = useState("Todas");
+
+  const especialidadesConFiltradoProyecto = useMemo(() => {
+    const set = new Set(conFiltrados.map((c) => (c.especialidad || "Sin especialidad").trim()));
+    return ["Todas", ...Array.from(set).filter(Boolean).sort((a, b) => a.localeCompare(b, "es"))];
+  }, [conFiltrados]);
+
+  const conFiltrados2 = contratistaFiltroEspecialidad === "Todas"
+    ? conFiltrados
+    : conFiltrados.filter((c) => (c.especialidad || "Sin especialidad").trim() === contratistaFiltroEspecialidad);
+
 
   // ── btn style helpers ────────────────────────────────────────────────────────
   const btn = (bg, color = "#fff") => ({ background: bg, color, border: "none", borderRadius: 7, padding: "5px 12px", cursor: "pointer", fontWeight: 700, fontSize: 12, display: "flex", alignItems: "center", gap: 4 });
@@ -592,13 +604,42 @@ supabase.from("proyectos").select("*").order("created_at", { ascending: false })
                     </button>
                   </div>
                 </div>
-                <div style={{ background: "#fff", borderRadius: 12, padding: "12px 20px", marginBottom: 16, display: "flex", gap: 24, flexWrap: "wrap", alignItems: "center", boxShadow: "0 1px 8px rgba(0,0,0,0.06)" }}>
-                  <div><span style={{ fontSize: 11, fontWeight: 700, color: "#7e22ce", textTransform: "uppercase" }}>Pagado ARS  </span><span style={{ fontSize: 16, fontWeight: 900, color: "#7e22ce" }}>{fmtARS(conFiltrados.filter((c) => c.estado === "pagado").reduce((s,c) => s + toARS(c.importe,c.moneda,c.tc), 0))}</span></div>
-                  <div><span style={{ fontSize: 11, fontWeight: 700, color: "#be123c", textTransform: "uppercase" }}>Pendiente ARS  </span><span style={{ fontSize: 16, fontWeight: 900, color: "#be123c" }}>{fmtARS(conFiltrados.filter((c) => c.estado === "pendiente").reduce((s,c) => s + toARS(c.importe,c.moneda,c.tc), 0))}</span></div>
-                  <div><span style={{ fontSize: 11, fontWeight: 700, color: "#a16207", textTransform: "uppercase" }}>Total USD  </span><span style={{ fontSize: 16, fontWeight: 900, color: "#a16207" }}>{fmtUSD(conFiltrados.reduce((s,c) => s + toUSD(c.importe,c.moneda,c.tc), 0))}</span></div>
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center", marginBottom: 12 }}>
+                  <div>
+                    <div style={{ fontSize: 11, fontWeight: 800, color: "#64748b", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 5 }}>Categoría (Especialidad)</div>
+                    <select
+                      style={{ width: 260, padding: "9px 12px", border: "1.5px solid #e2e8f0", borderRadius: 8, fontSize: 14, background: "#f8fafc", cursor: "pointer" }}
+                      value={contratistaFiltroEspecialidad}
+                      onChange={(e) => setContratistaFiltroEspecialidad(e.target.value)}
+                    >
+                      {especialidadesConFiltradoProyecto.map((esp) => (
+                        <option key={esp} value={esp}>{esp}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div style={{ marginLeft: "auto", display: "flex", gap: 10, alignItems: "center" }}>
+                    <div style={{ fontSize: 11, color: "#94a3b8" }}>
+                      · {conFiltrados2.length} registros
+                    </div>
+                    <button
+                      onClick={() => setContratistaFiltroEspecialidad("Todas")}
+                      style={{ fontSize: 13, background: "#f1f5f9", color: "#475569", border: "none", borderRadius: 8, padding: "8px 14px", cursor: "pointer" }}
+                    >
+                      Limpiar filtro
+                    </button>
+                  </div>
                 </div>
+
+                <div style={{ background: "#fff", borderRadius: 12, padding: "12px 20px", marginBottom: 16, display: "flex", gap: 24, flexWrap: "wrap", alignItems: "center", boxShadow: "0 1px 8px rgba(0,0,0,0.06)" }}>
+                  <div><span style={{ fontSize: 11, fontWeight: 700, color: "#1d6fa4", textTransform: "uppercase" }}>Total ARS  </span><span style={{ fontSize: 16, fontWeight: 900, color: "#1d6fa4" }}>{fmtARS(conFiltrados2.reduce((s,c) => s + toARS(c.importe,c.moneda,c.tc), 0))}</span></div>
+                  <div><span style={{ fontSize: 11, fontWeight: 700, color: "#a16207", textTransform: "uppercase" }}>Total USD  </span><span style={{ fontSize: 16, fontWeight: 900, color: "#a16207" }}>{fmtUSD(conFiltrados2.reduce((s,c) => s + toUSD(c.importe,c.moneda,c.tc), 0))}</span></div>
+                  <div><span style={{ fontSize: 11, fontWeight: 700, color: "#7e22ce", textTransform: "uppercase" }}>Pagado ARS  </span><span style={{ fontSize: 16, fontWeight: 900, color: "#7e22ce" }}>{fmtARS(conFiltrados2.filter((c) => c.estado === "pagado").reduce((s,c) => s + toARS(c.importe,c.moneda,c.tc), 0))}</span></div>
+                  <div><span style={{ fontSize: 11, fontWeight: 700, color: "#be123c", textTransform: "uppercase" }}>Pendiente ARS  </span><span style={{ fontSize: 16, fontWeight: 900, color: "#be123c" }}>{fmtARS(conFiltrados2.filter((c) => c.estado === "pendiente").reduce((s,c) => s + toARS(c.importe,c.moneda,c.tc), 0))}</span></div>
+                </div>
+
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                  {conFiltrados.map((c) => (
+                  {conFiltrados2.map((c) => (
+
                     <div key={c.id} style={{ background: "#fff", borderRadius: 12, padding: "18px 22px", boxShadow: "0 2px 10px rgba(0,0,0,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
                       <div>
                         <div style={{ fontWeight: 800, fontSize: 15, color: "#1e293b" }}>{c.nombre}</div>
