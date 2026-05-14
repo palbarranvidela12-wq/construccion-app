@@ -343,8 +343,8 @@ supabase.from("proyectos").select("*").order("created_at", { ascending: false })
     <div style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", background: "#f1f5f9", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
 
       {/* HEADER */}
-      <header style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%)", color: "#fff", padding: "16px 24px", display: "flex", alignItems: "center", gap: 14, boxShadow: "0 4px 20px rgba(0,0,0,0.2)" }}>
-        <div style={{ background: "rgba(255,255,255,0.15)", borderRadius: 10, padding: "8px 10px", fontSize: 22 }}></div>
+      <header style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%)", color: "#FF791A", padding: "16px 24px", display: "flex", alignItems: "center", gap: 14, boxShadow: "0 4px 20px rgba(0,0,0,0.2)" }}>
+        <div style={{ background: "rgba(255, 255, 255, 0)", borderRadius: 10, padding: "8px 10px", fontSize: 22 }}></div>
         <div>
           <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: 0.5 }}>stockIA</div>
           <div style={{ fontSize: 11, opacity: 0.75, letterSpacing: 1 }}>GESTIÓN DE OBRAS · ARS / USD</div>
@@ -386,7 +386,7 @@ supabase.from("proyectos").select("*").order("created_at", { ascending: false })
             {/* ── DASHBOARD ── */}
             {tab === "dashboard" && (
               <div>
-                <h2 style={{ margin: "0 0 20px", fontSize: 22, color: "#1e293b" }}>📊 Resumen General</h2>
+                <h2 style={{ margin: "0 0 20px", fontSize: 22, color: "#1e293b" }}>Resumen General</h2>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 28 }}>
                   {[
                     { label: "Proyectos activos", ars: proyectos.filter((p) => p.estado === "en_curso").length, isCount: true, color: "#2d6a9f", bg: "#dbeafe" },
@@ -475,7 +475,7 @@ supabase.from("proyectos").select("*").order("created_at", { ascending: false })
             {tab === "proyectos" && (
               <div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-                  <h2 style={{ margin: 0, fontSize: 22, color: "#1e293b" }}>🏗️ Proyectos</h2>
+                  <h2 style={{ margin: 0, fontSize: 22, color: "#1e293b" }}>Proyectos</h2>
                   <button onClick={() => openModal("proyecto", { monedaPresupuesto: "ARS", estado: "planificacion" })} style={{ display: "flex", alignItems: "center", gap: 6, background: "#1e3a5f", color: "#fff", border: "none", borderRadius: 9, padding: "9px 18px", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                     <IcPlus /> Nuevo proyecto
                   </button>
@@ -513,8 +513,8 @@ supabase.from("proyectos").select("*").order("created_at", { ascending: false })
                           </div>
                         </div>
                         <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
-                          <button onClick={() => { setProyectoActivo(p.id); setTab("materiales"); }} style={btn("#dbeafe","#1e40af")}>📦 Materiales</button>
-                          <button onClick={() => { setProyectoActivo(p.id); setTab("contratistas"); }} style={btn("#f3e8ff","#7e22ce")}>👷 Contratistas</button>
+                          <button onClick={() => { setProyectoActivo(p.id); setTab("materiales"); }} style={btn("#dbeafe","#1e40af")}>Materiales</button>
+                          <button onClick={() => { setProyectoActivo(p.id); setTab("contratistas"); }} style={btn("#f3e8ff","#7e22ce")}>Contratistas</button>
                           <button onClick={() => openModal("proyecto", { ...p })} style={btn("#f1f5f9","#475569")}><IcEdit /> Editar</button>
                           <button onClick={() => eliminarProyecto(p.id)} style={btn("#ffe4e6","#be123c")}><IcTrash /> Eliminar</button>
                         </div>
@@ -531,7 +531,7 @@ supabase.from("proyectos").select("*").order("created_at", { ascending: false })
               <div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 10 }}>
                   <div>
-                    <h2 style={{ margin: 0, fontSize: 22, color: "#1e293b" }}>📦 Materiales</h2>
+                    <h2 style={{ margin: 0, fontSize: 22, color: "#1e293b" }}>Materiales</h2>
                     {proyectoActivo && <div style={{ fontSize: 13, color: "#64748b", marginTop: 2 }}>Filtrando: {proyectos.find((p) => p.id === proyectoActivo)?.nombre}</div>}
                   </div>
                   <div style={{ display: "flex", gap: 10 }}>
@@ -594,7 +594,7 @@ supabase.from("proyectos").select("*").order("created_at", { ascending: false })
               <div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 10 }}>
                   <div>
-                    <h2 style={{ margin: 0, fontSize: 22, color: "#1e293b" }}>👷 Contratistas</h2>
+                    <h2 style={{ margin: 0, fontSize: 22, color: "#1e293b" }}>Contratistas</h2>
                     {proyectoActivo && <div style={{ fontSize: 13, color: "#64748b", marginTop: 2 }}>Filtrando: {proyectos.find((p) => p.id === proyectoActivo)?.nombre}</div>}
                   </div>
                   <div style={{ display: "flex", gap: 10 }}>
@@ -734,7 +734,7 @@ supabase.from("proyectos").select("*").order("created_at", { ascending: false })
           <Field label="Nombre del material"><input style={iS} value={form.nombre || ""} onChange={f("nombre")} placeholder="Ej: Cemento Portland" /></Field>
           <Field label="Categoría">
             <select style={sS} value={form.categoria || "Estructura"} onChange={f("categoria")}>
-              {["Estructura","Albañilería","Cubierta","Instalaciones","Acabados","Carpintería","Otro"].map((c) => <option key={c}>{c}</option>)}
+              {["Áridos","Cemento/Yeso","Hierros","Ladrillos","Mat. Albañilería","Mat. Plomeria/Gas","Mat. Iluminación","Consumibles","Otro"].map((c) => <option key={c}>{c}</option>)}
             </select>
           </Field>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
