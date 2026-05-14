@@ -344,9 +344,9 @@ supabase.from("proyectos").select("*").order("created_at", { ascending: false })
 
       {/* HEADER */}
       <header style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%)", color: "#fff", padding: "16px 24px", display: "flex", alignItems: "center", gap: 14, boxShadow: "0 4px 20px rgba(0,0,0,0.2)" }}>
-        <div style={{ background: "rgba(255,255,255,0.15)", borderRadius: 10, padding: "8px 10px", fontSize: 22 }}>🏗️</div>
+        <div style={{ background: "rgba(255,255,255,0.15)", borderRadius: 10, padding: "8px 10px", fontSize: 22 }}></div>
         <div>
-          <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: 0.5 }}>ConstruGestión</div>
+          <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: 0.5 }}>stockIA</div>
           <div style={{ fontSize: 11, opacity: 0.75, letterSpacing: 1 }}>GESTIÓN DE OBRAS · ARS / USD</div>
         </div>
         <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10 }}>
