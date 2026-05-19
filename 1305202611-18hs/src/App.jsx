@@ -9,7 +9,9 @@ function usePersistedState(key, fallback) {
     } catch { return fallback; }
   });
   useEffect(() => {
-    try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* ignore */ }
+
+
   }, [key, value]);
   return [value, setValue];
 }
